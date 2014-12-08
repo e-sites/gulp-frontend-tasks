@@ -1,7 +1,10 @@
 Gulp front-end tasks
 ====================
 
-<blockquote><p>Collection of Gulp tasks that we use to automate our front-end workflow.</p></blockquote>
+<blockquote><p>A collection of useful Gulp tasks to automate your front-end workflow.</p></blockquote>
+
+## Introduction
+TBD
 
 ## Tasks
 * LESS compilation including source maps
@@ -11,7 +14,13 @@ Gulp front-end tasks
 * Create JS builds (concatenation, minification)
 * Concatenation of external Handlebars templates
 
+## Getting started
+TBD
+
 ## Configuration
+TBD
+
+### Paths
 TBD
 
 ##License
