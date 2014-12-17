@@ -1,0 +1,23 @@
+{
+	"dependencies": {
+		"gulp-shell": "^0.2.10"
+	},
+	"conf": {
+		"jquery": [{
+			"version": "2.1.1",
+			"exclude": [
+				"deprecated",
+				"event-alias",
+				"sizzle",
+				"wrap"
+			]
+		}, {
+			"version": "1.11.1",
+			"exclude": [
+				"deprecated",
+				"event-alias",
+				"wrap"
+			]
+		}]
+	}
+}

@@ -1,0 +1,5 @@
+{
+	"dependencies": {
+    	"gulp-sprite-glue": "0.0.3"
+	}
+}

@@ -7,15 +7,15 @@
  * @version  0.1.0
  */
 
-var shell = require('gulp-shell');
-
 gulp.task('buildjquery', function () {
-	var curl = [
+	var shell = require('gulp-shell'),
+		taskConf = JSON.parse(fs.readFileSync(__dirname + '/task.json', 'utf8')).conf,
+		curl = [
 			'https://raw.githubusercontent.com/jgallen23/jquery-builder/',
 			'0.7.0',
 			'/dist/'
 		],
-		jqs = conf.jquery,
+		jqs = taskConf.jquery,
 		path = conf.path.js + '/vendor/jquery',
 		fileName = 'jquery-%version%.min.js',
 		commands = [];	

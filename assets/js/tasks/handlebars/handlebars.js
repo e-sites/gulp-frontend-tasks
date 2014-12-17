@@ -5,13 +5,13 @@
  * @version  0.1.0
  */
 
-var wrap = require('gulp-wrap'),
-	declare = require('gulp-declare'),
-	concat = require('gulp-concat'),
-	group = require('gulp-group-files'),
-	handlebars = require('gulp-handlebars');
-
 gulp.task('handlebars', function () {
+	var wrap = require('gulp-wrap'),
+		declare = require('gulp-declare'),
+		concat = require('gulp-concat'),
+		group = require('gulp-group-files'),
+		handlebars = require('gulp-handlebars');
+		
 	return gulp.src(conf.path.js + '/templates/*.hbs')
 			.pipe(_plumbError('handlebars', 'Handlebars precompiling failed'))
 			.pipe(handlebars())
@@ -24,3 +24,7 @@ gulp.task('handlebars', function () {
 			.pipe(gulp.dest(conf.path.js + '/templates'))
 			.pipe(_notifySuccess('handlebars', 'Handlebars precompiling succeeded'));
 });
+
+_registerTask('default', 'handlebars');
+_registerTask('deploy', 'handlebars');
+_registerTask('watch', 'handlebars', conf.path.js + '/templates/*.hbs');

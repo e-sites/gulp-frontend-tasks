@@ -5,18 +5,17 @@
  * @version  0.1.0
  */
 
-var del = require('del'),
-	rename = require('gulp-rename'),
-	svgstore = require('gulp-svgstore'),
-	svg2png = require('gulp-svg2png');
-
 gulp.task('clean:svg', function () {
+	var del = require('del');
+
 	del([
 		conf.path.svg + '/dist/'
 	]);
 });
 
 gulp.task('svgconcat', ['clean:svg'], function () {
+	var svgstore = require('gulp-svgstore');
+
 	return gulp.src(conf.path.svg + '/src/*.svg')
 			.pipe(_plumbError('svgconcat', 'SVG concatenation failed'))
 			.pipe(svgstore({fileName: 'dist.svg'}))
@@ -25,6 +24,9 @@ gulp.task('svgconcat', ['clean:svg'], function () {
 });
 
 gulp.task('svg2png', ['clean:svg'], function () {
+	var rename = require('gulp-rename'),
+		svg2png = require('gulp-svg2png');
+
 	return gulp.src(conf.path.svg + '/src/*.svg')
 			.pipe(_plumbError('svg2png', 'SVG to PNG conversion failed'))
 			.pipe(svg2png())
@@ -38,3 +40,7 @@ gulp.task('svg2png', ['clean:svg'], function () {
 });
 
 gulp.task('svg', ['clean:svg', 'svgconcat', 'svg2png']);
+
+_registerTask('default', 'svg');
+_registerTask('deploy', 'svg');
+_registerTask('watch', 'svg', conf.path.svg + '/src');
