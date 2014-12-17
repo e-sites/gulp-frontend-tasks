@@ -74,7 +74,7 @@ The global methods are:
 Example:
 
 ```javascript
-// Foo task with gulp-plumber errro handling and gulp-notify error and success notifications
+// Foo task with gulp-plumber error handling and gulp-notify error and success notifications
 gulp.task('foo', function () {
 	return gulp.src('path/to/source')
 		.pipe(_plumbError('foo', 'Error message'))
