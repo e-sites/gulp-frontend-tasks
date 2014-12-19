@@ -13,6 +13,7 @@
     "gulp-notify": "^2.0.1",
     "gulp-plumber": "^0.6.6",
     "gulp-sourcemaps": "^1.2.2",
+    "gulp-tasker": "^0.1.0",
     "require-dir": "^0.1.0",
     "walk": "^2.3.4"
   },

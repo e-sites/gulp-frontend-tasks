@@ -42,10 +42,13 @@ If you want to add a new tasks and would like to register it with this workflow,
 * Add a .js file and a task.json to this folder
 * In the .js file, code your task
 * In the .json file, specify the task dependencies (this is read by the dependency installer)
-* Use the available global `_registerTask()` method to register your task as a default, deploy or watch task
+* Use the available global `tasker.addTask()` method to register your task as a default, deploy or watch task
 
-### _registerTask API
-The _registerTask method accept three parameters:
+### tasker API
+We use a gulp plugin named `gulp-tasker` to handle loading dependencies and adding them to default, deploy and watch tasks.
+
+From within a task file, you can call `tasker.addTask()` to add the task from the file to another task. It accepts three arguments:
+
 1. The type of task (default, deploy or watch)
 2. The subtasks to register
 3. (Optional) The folder to watch when specifying a watch task
@@ -54,22 +57,39 @@ Examples:
 
 ```javascript
 // Default task registering for 'gulp' command
-_registerTask('default', 'foo');
+tasker.addTask('default', 'foo');
 
 // Deploy task registering for 'gulp deploy' command
-_registerTask('deploy', 'bar');
+tasker.addTask('deploy', 'bar');
 
 // Watch task registering for 'gulp watch' command
-_registerTask('watch', 'baz', 'path/to/folder');
+tasker.addTask('watch', 'baz', 'path/to/folder');
+```
+
+To retrieve these task in your default, deploy and watch tasks, you can use the tasker.getTasks() method.
+
+```javascript
+// Default task when run with 'gulp'
+gulp.task('default', tasker.getTasks('default'));
+
+// Default task when run with 'gulp deploy'
+gulp.task('deploy', tasker.getTasks('deploy'));
+
+// Watch task when run with 'gulp watch'
+gulp.task('watch', function () {
+	tasker.getTasks('watch').forEach(function(task) {
+		gulp.watch(task.folders, task.tasks);
+	});
+});
 ```
 
 ### Notifications
-This bundle also contains default error handling and notification modules ([gulp-plumber](https://github.com/floatdrop/gulp-plumber) and [gulp-notify](https://github.com/mikaelbr/gulp-notify)). These modules are available as well through global methods, so you are able to use them in your task.
+This bundle also contains default error handling and notification modules ([gulp-plumber](https://github.com/floatdrop/gulp-plumber) and [gulp-notify](https://github.com/mikaelbr/gulp-notify)). These modules are abstracted a bit and exposed globally, so you are able to use them in your task(s).
 
 The global methods are:
 
-* `_plumbError(taskName, errorMessage)`
-* `_notifySuccess(taskName, successMessage)`
+* `handleError(taskName, errorMessage)`
+* `handleSuccess(taskName, successMessage)`
 
 Example:
 
@@ -77,9 +97,9 @@ Example:
 // Foo task with gulp-plumber error handling and gulp-notify error and success notifications
 gulp.task('foo', function () {
 	return gulp.src('path/to/source')
-		.pipe(_plumbError('foo', 'Error message'))
+		.pipe(handleError('foo', 'Error message'))
 		.pipe(gulp.dest('path/to/dest'))
-		.pipe(_notifySuccess('foo', 'Success message'));
+		.pipe(handleSuccess('foo', 'Success message'));
 });
 ```
 

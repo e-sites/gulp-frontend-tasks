@@ -17,10 +17,10 @@ gulp.task('svgconcat', ['clean:svg'], function () {
 	var svgstore = require('gulp-svgstore');
 
 	return gulp.src(conf.path.svg + '/src/*.svg')
-			.pipe(_plumbError('svgconcat', 'SVG concatenation failed'))
+			.pipe(handleError('svgconcat', 'SVG concatenation failed'))
 			.pipe(svgstore({fileName: 'dist.svg'}))
 			.pipe(gulp.dest(conf.path.svg + '/dist/'))
-			.pipe(_notifySuccess('svgconcat', 'SVG concatenation succeeded'));
+			.pipe(handleSuccess('svgconcat', 'SVG concatenation succeeded'));
 });
 
 gulp.task('svg2png', ['clean:svg'], function () {
@@ -28,7 +28,7 @@ gulp.task('svg2png', ['clean:svg'], function () {
 		svg2png = require('gulp-svg2png');
 
 	return gulp.src(conf.path.svg + '/src/*.svg')
-			.pipe(_plumbError('svg2png', 'SVG to PNG conversion failed'))
+			.pipe(handleError('svg2png', 'SVG to PNG conversion failed'))
 			.pipe(svg2png())
 			.on('error', function(err){ console.log(err.message); this.emit('end');})
 			.pipe(rename(function (path) {
@@ -36,11 +36,11 @@ gulp.task('svg2png', ['clean:svg'], function () {
 			}))
 			.on('error', function(err){ console.log(err.message); this.emit('end');})
 			.pipe(gulp.dest(conf.path.svg + '/dist/'))
-			.pipe(_notifySuccess('svg2png', 'SVG to PNG conversion succeeded'));
+			.pipe(handleSuccess('svg2png', 'SVG to PNG conversion succeeded'));
 });
 
 gulp.task('svg', ['clean:svg', 'svgconcat', 'svg2png']);
 
-_registerTask('default', 'svg');
-_registerTask('deploy', 'svg');
-_registerTask('watch', 'svg', conf.path.svg + '/src');
+tasker.addTask('default', 'svg');
+tasker.addTask('deploy', 'svg');
+tasker.addTask('watch', 'svg', conf.path.svg + '/src');

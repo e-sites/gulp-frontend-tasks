@@ -13,7 +13,7 @@ gulp.task('handlebars', function () {
 		handlebars = require('gulp-handlebars');
 		
 	return gulp.src(conf.path.js + '/templates/*.hbs')
-			.pipe(_plumbError('handlebars', 'Handlebars precompiling failed'))
+			.pipe(handleError('handlebars', 'Handlebars precompiling failed'))
 			.pipe(handlebars())
 			.pipe(wrap('Handlebars.template(<%= contents %>)'))
 			.pipe(declare({
@@ -22,9 +22,9 @@ gulp.task('handlebars', function () {
 			}))
 			.pipe(concat('templates.js'))
 			.pipe(gulp.dest(conf.path.js + '/templates'))
-			.pipe(_notifySuccess('handlebars', 'Handlebars precompiling succeeded'));
+			.pipe(handleSuccess('handlebars', 'Handlebars precompiling succeeded'));
 });
 
-_registerTask('default', 'handlebars');
-_registerTask('deploy', 'handlebars');
-_registerTask('watch', 'handlebars', conf.path.js + '/templates/*.hbs');
+tasker.addTask('default', 'handlebars');
+tasker.addTask('deploy', 'handlebars');
+tasker.addTask('watch', 'handlebars', conf.path.js + '/templates/*.hbs');

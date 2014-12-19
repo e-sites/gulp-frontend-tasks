@@ -22,27 +22,27 @@ gulp.task('jsconcat', ['clean:js'], group(taskConf.jsGroups, function (name, fil
 		concat = require('gulp-concat');
 
 	return gulp.src(files)
-			.pipe(_plumbError('jsconcat', 'JS concatenation failed'))
+			.pipe(handleError('jsconcat', 'JS concatenation failed'))
 			.pipe(sourcemaps.init())
 			.pipe(concat(name + '.js'))
 			.pipe(uglify())
 			.pipe(sourcemaps.write('./'))
 			.pipe(gulp.dest(jsPath + '/build'))
-			.pipe(_notifySuccess('jsconcat', 'JS concatenation succeeded'));
+			.pipe(handleSuccess('jsconcat', 'JS concatenation succeeded'));
 }));
 
 gulp.task('js', ['jsconcat'], function () {
 	var rev = require('gulp-rev');
 
 	return gulp.src(jsPath + '/build/*.js')
-			.pipe(_plumbError('js', 'JS manifest generation failed'))
+			.pipe(handleError('js', 'JS manifest generation failed'))
 			.pipe(rev())
 			.pipe(gulp.dest(jsPath + '/build'))
 			.pipe(rev.manifest())
 			.pipe(gulp.dest(jsPath + '/build'))
-			.pipe(_notifySuccess('js', 'JS manifest generation succeeded'));
+			.pipe(handleSuccess('js', 'JS manifest generation succeeded'));
 });
 
-_registerTask('default', 'js');
-_registerTask('deploy', 'js');
-_registerTask('watch', 'js', [conf.path.js + '/**/*.js', '!' + conf.path.js + '/build/**/*', '!' + conf.path.js + '/tasks/**/*.js']);
+tasker.addTask('default', 'js');
+tasker.addTask('deploy', 'js');
+tasker.addTask('watch', 'js', [conf.path.js + '/**/*.js', '!' + conf.path.js + '/build/**/*', '!' + conf.path.js + '/tasks/**/*.js']);
