@@ -20,4 +20,4 @@ gulp.task('less', function () {
 
 tasker.addTask('default', 'less');
 tasker.addTask('deploy', 'less');
-tasker.addTask('watch', 'less', conf.path.css + '/styles.less');
+tasker.addTask('watch', 'less', conf.path.css + '/**/*.less');
