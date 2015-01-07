@@ -15,14 +15,15 @@
 	global.gulp = require('gulp');
 	global.plumber = require('gulp-plumber');
 	global.sourcemaps = require('gulp-sourcemaps');
-	global.tasker = require('gulp-tasker')({
-		path: '/assets/js/tasks'
-	});
+	global.tasker = require('gulp-tasker');
 	global.fs = require('fs');
 
 	var notify = require('gulp-notify');
 
-	tasker.loadTasks();
+	// Load all tasks
+	tasker.loadTasks({
+		path: '/assets/js/tasks'
+	});
 
 	/**
 	 * Default error handler for task specific errors
@@ -53,14 +54,14 @@
 	};
 
 	// Default task when run with 'gulp'
-	gulp.task('default', tasker.getTasks('default'));
+	gulp.task('default', tasker.getTasks('default').tasks);
 
 	// Default task when run with 'gulp deploy'
-	gulp.task('deploy', tasker.getTasks('deploy'));
+	gulp.task('deploy', tasker.getTasks('deploy').tasks);
 
 	// Watch task when run with 'gulp watch'
 	gulp.task('watch', function () {
-		tasker.getTasks('watch').forEach(function(task) {
+		tasker.getTasks('watch').tasks.forEach(function(task) {
 			gulp.watch(task.folders, task.tasks);
 		});
 	});
