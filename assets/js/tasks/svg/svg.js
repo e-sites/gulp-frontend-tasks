@@ -1,6 +1,6 @@
 /**
  * Does SVG stuff :)
- * 
+ *
  * @author   Iain van der Wiel <iain@e-sites.nl>
  * @version  0.1.0
  */
@@ -14,11 +14,13 @@ gulp.task('clean:svg', function () {
 });
 
 gulp.task('svgconcat', ['clean:svg'], function () {
-	var svgstore = require('gulp-svgstore');
+	var rename = require('gulp-rename'),
+		svgstore = require('gulp-svgstore');
 
 	return gulp.src(conf.path.svg + '/src/*.svg')
 			.pipe(handleError('svgconcat', 'SVG concatenation failed'))
-			.pipe(svgstore({fileName: 'dist.svg'}))
+			.pipe(svgstore())
+			.pipe(rename('dist.svg'))
 			.pipe(gulp.dest(conf.path.svg + '/dist/'))
 			.pipe(handleSuccess('svgconcat', 'SVG concatenation succeeded'));
 });
